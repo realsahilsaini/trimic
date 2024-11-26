@@ -1,8 +1,15 @@
-# React + Vite
+# Trimic
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Trim your URL with powerful analytics! 🚀
 
-Currently, two official plugins are available:
+## About Trimic
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Designed to help you trim your long URLs into short, manageable links while providing comprehensive analytics to track their performance. Whether you're a marketer, developer, or just someone who wants to share cleaner links, Trimic has got you covered.
+
+
+<p align="center">
+  <img src="public/banner.jpg" alt="Trimic Banner" width="500"/>
+</p>
+
+<!-- <img src="public/logo.png" alt="Trimic Logo" width="200"/> -->
+
