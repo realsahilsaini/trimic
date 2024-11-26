@@ -26,8 +26,6 @@ const Header = () => {
 
       <div>
         {user ? (
-          <Button onClick={() => naviagte("/auth")}>Login</Button>
-        ) : (
           <DropdownMenu>
             <DropdownMenuTrigger className="w-10 bg-red-500 rounded-full overflow-hidden">
               <Avatar>
@@ -49,7 +47,13 @@ const Header = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )}
+        ):
+
+        (
+          <Button onClick={() => naviagte("/auth")}>Login</Button>
+        )
+      
+      }
       </div>
     </nav>
   );
