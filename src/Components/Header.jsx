@@ -11,14 +11,24 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Link2, Link2Icon, LinkIcon, LogOut } from "lucide-react";
+import { UrlState } from "@/context";
+import useFetch from "@/hooks/use-fetch";
+import { logout } from "@/db/apiAuth";
+import { BarLoader } from "react-spinners";
 
 const Header = () => {
   //programmatic navigation
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
 
-  const user = false;
+   const {user, fetchUser} = UrlState();
+
+   console.log(user);
+    
+   const {loading, fn: fnLogout} = useFetch(logout);
 
   return (
+
+    <>
     <nav className="py-4 flex justify-between items-center">
       <Link to="/">
         <img src="/logo.png" className="h-32" alt="Trimic logo" />
@@ -27,15 +37,15 @@ const Header = () => {
       <div>
         {user ? (
           <DropdownMenu>
-            <DropdownMenuTrigger className="w-10 bg-red-500 rounded-full overflow-hidden">
+            <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={user.user_metadata.profile_pic} className='object-cover' />
                 <AvatarFallback>SS</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent>
-              <DropdownMenuLabel>Sahil Saini</DropdownMenuLabel>
+              <DropdownMenuLabel>{user?.user_metadata?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <LinkIcon />
@@ -43,19 +53,33 @@ const Header = () => {
               </DropdownMenuItem>
               <DropdownMenuItem className="text-red-500">
                 <LogOut size={16} className="mr-1" />
-                Logout
+                <span 
+                onClick={() => {
+                  fnLogout().then(() => {
+                    fetchUser();
+                    navigate("/");
+                  });
+                }}
+                >
+                  Logout
+                </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        ):
+        )
+        
+        :
 
         (
-          <Button onClick={() => naviagte("/auth")}>Login</Button>
+          <Button onClick={() => navigate("/auth")}>Login</Button>
         )
       
       }
       </div>
     </nav>
+    {loading && <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />}
+    </>
+
   );
 };
 

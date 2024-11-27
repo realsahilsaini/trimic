@@ -49,4 +49,10 @@ export async function signup({name, email, password, profile_pic}){
   return data;
 }
 
-// https://lsuqovlhiudggohjrxco.supabase.co/storage/v1/object/public/profile_pic/storageTest.jpg?t=2024-11-27T08%3A41%3A10.904Z
+export async function logout(){
+  const {error} = await supabase.auth.signOut();
+
+  if(error) throw new Error(error.message);
+
+  return null;
+}
