@@ -22,7 +22,7 @@ const Header = () => {
 
    const {user, fetchUser} = UrlState();
 
-   console.log(user);
+  //  console.log(user);
     
    const {loading, fn: fnLogout} = useFetch(logout);
 
@@ -40,7 +40,7 @@ const Header = () => {
             <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden">
               <Avatar>
                 <AvatarImage src={user.user_metadata.profile_pic} className='object-cover' />
-                <AvatarFallback>SS</AvatarFallback>
+                <AvatarFallback>Avatar</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
 
@@ -48,8 +48,10 @@ const Header = () => {
               <DropdownMenuLabel>{user?.user_metadata?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
+                <Link to={'/dashboard'} className="flex gap-2">
                 <LinkIcon />
                 My Links
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="text-red-500">
                 <LogOut size={16} className="mr-1" />
