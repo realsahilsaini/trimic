@@ -13,3 +13,17 @@ export async function getUrls(user_id) {
 
   return data;
 }
+
+export async function deleteUrl(id) {
+  const {data, error} = await supabase
+  .from('urls')
+  .delete('*')
+  .eq('id', id);
+
+  if (error) {
+    console.error(error.mesage);
+    throw new Error('An error occured while fetching urls'); 
+  }
+
+  return data;
+}
