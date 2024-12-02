@@ -1,9 +1,37 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { Copy, Delete, Download } from "lucide-react";
+import { Copy, Delete, Download, Trash } from "lucide-react";
 
 const LinkCard = ({ url, fetchUrls }) => {
+
+  const downloadImage = ()=>{
+    const imageUrl = url?.qr;
+    const fileName = url?.title;
+
+    // const anchor = document.createElement('a');
+    // anchor.href = imageUrl;
+    // anchor.download = fileName;
+
+    // document.body.appendChild(anchor);
+
+    // anchor.click();
+
+    // document.body.removeChild(anchor);
+
+    fetch(imageUrl).then((response) => {
+      return response.blob();
+    }).then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
   return (
     <div className="flex flex-col justify-center md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
       <div className="flex flex-col gap-8 sm:flex-row">
@@ -43,11 +71,11 @@ const LinkCard = ({ url, fetchUrls }) => {
         >
           <Copy size={16} />
         </Button>
-        <Button variant='ghost'>
+        <Button variant='ghost' onClick={downloadImage}>
           <Download size={16} />
         </Button>
         <Button variant='ghost'>
-          <Delete size={16} />
+          <Trash size={16} />
         </Button>
       </div>
     </div>
