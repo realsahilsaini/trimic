@@ -1,3 +1,4 @@
+import { UAParser } from "ua-parser-js";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getUrls(user_id) {
@@ -65,4 +66,52 @@ export async function createUrl({title, originalUrl, customUrl ,user_id}, qrcode
   }
 
   return data;
+}
+
+
+
+export async function getLongUrl(id) {
+  const {data, error} = await supabase
+  .from('urls')
+  .select("id, original_url")
+  .or(`short_url.eq.${id}`, `custom_url.eq.${id}`)
+  .single();
+
+  if (error) {
+    console.error(error.mesage);
+    throw new Error('An error occured while fetching short Url'); 
+  }
+
+  return data;
+}
+
+
+
+const parser = new UAParser();
+
+export const storeClicks = async({id, originalUrl}) =>{
+
+  try{
+
+    const res = parser.getResult();
+    const device  = res.type || 'desktop';
+
+    const response = await fetch('https://ipapi.co/json');
+    const {city, country_name: country} = await response.json();
+
+
+    await supabase.from('clicks').insert({
+      url_id: id,
+      device,
+      city,
+      country
+    })
+
+
+    window.location.href = originalUrl;
+
+  }catch(error){
+    console.error('Error while recording clicks:', error);
+  }
+
 }
