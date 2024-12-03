@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 
 export async function getUrls(user_id) {
   const {data, error} = await supabase
@@ -23,6 +23,45 @@ export async function deleteUrl(id) {
   if (error) {
     console.error(error.mesage);
     throw new Error('An error occured while fetching urls'); 
+  }
+
+  return data;
+}
+
+
+export async function createUrl({title, originalUrl, customUrl ,user_id}, qrcode) {
+
+//Generate a random short url if custom url is not provided
+  const short_url = Math.random().toString(36).substring(2,6);
+
+  const fileName = `qr-${short_url}-${Date.now()}`;
+
+  const {error: storageError} = await supabase.storage
+  .from('qrs')
+  .upload(fileName, qrcode);
+
+  if(storageError) throw new Error(storageError.message);
+
+  const qr = `${supabaseUrl}/storage/v1/object/public/qrs/${fileName}`
+
+
+  const {data, error} = await supabase
+  .from('urls')
+  .insert([
+    {
+      title, 
+      original_url: originalUrl, 
+      custom_url:customUrl ||null, 
+      short_url, 
+      user_id, 
+      qr
+    }
+  ]).select();
+
+
+  if (error) {
+    console.error(error.mesage);
+    throw new Error('Error while creating short URl'); 
   }
 
   return data;
