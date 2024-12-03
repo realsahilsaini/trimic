@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { Copy, Delete, Download, Trash } from "lucide-react";
+import { Copy, CopyCheck, Delete, Download, Trash } from "lucide-react";
 import useFetch from "@/hooks/use-fetch";
 import { deleteUrl } from "@/db/apiUrl";
 import { BeatLoader } from "react-spinners";
@@ -39,6 +39,21 @@ const LinkCard = ({ url, fetchUrls }) => {
   const {loading, loadingDelete, fn:fnDelete} = useFetch(deleteUrl, url?.id);
 
 
+  const [copySuccess, setCopySuccess] = useState(0);
+
+
+  useEffect(()=>{
+
+    if(copySuccess){
+      setTimeout(()=>{
+        setCopySuccess(0);
+      }, 1500);
+    }
+
+  }, [copySuccess]);
+
+
+
   return (
     <div className="flex flex-col justify-around md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
       <div className="flex flex-col gap-8 sm:flex-row">
@@ -73,10 +88,11 @@ const LinkCard = ({ url, fetchUrls }) => {
       <div className="flex gap-2">
         <Button variant='ghost' 
         onClick={() => {
+          setCopySuccess(1);
           navigator.clipboard.writeText(`https://trimic.me/${url?.custom_url ? url?.custom_url : url?.short_url}`);
         }}
         >
-          <Copy size={16} />
+          {copySuccess ? <CopyCheck size={18} /> : <Copy size={16} />}
         </Button>
         <Button variant='ghost' onClick={downloadImage}>
           <Download size={16} />
