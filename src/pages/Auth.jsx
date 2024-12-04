@@ -1,6 +1,6 @@
 import Login from "@/Components/Login";
 import Signup from "@/Components/Signup";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
 import { UrlState } from "@/context";
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
