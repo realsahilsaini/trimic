@@ -8,7 +8,7 @@ Designed to help you trim your long URLs into short, manageable links while prov
 
 
 <p align="center">
-  <img src="public/trimic_stats.png" alt="Trimic Banner" width="500"/>
+  <img src="public/trimic_stats.png" alt="Trimic Banner" width="900"/>
 </p>
 
 <!-- <img src="public/logo.png" alt="Trimic Logo" width="200"/> -->
